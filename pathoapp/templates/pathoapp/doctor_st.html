@@ -1,0 +1,66 @@
+<!-- doctor_st.html -->
+{% extends "pathoapp/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Doctor Test Report</h2>
+
+    <!-- Doctor Dropdown Form -->
+    <form method="POST" class="mb-4">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="doctorname">Select Doctor</label>
+            <select name="doctorname" class="form-control" id="doctorname" required>
+                <option value="" disabled selected>Select Doctor</option>
+                {% for doctor in doctors %}
+                    <option value="{{ doctor.doctorname }}" {% if selected_doctor and selected_doctor.doctorname == doctor.doctorname %}selected{% endif %}>
+                        {{ doctor.doctorname }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Show Report</button>
+    </form>
+
+    <!-- Display Selected Doctor's Tests -->
+    {% if selected_doctor %}
+        <h3>Test Report for Dr. {{ selected_doctor.doctorname }}</h3>
+
+        <!-- Tests Table -->
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Test Date</th>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Mobile No</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in tests %}
+                    <tr>
+                        <td>{{ test.test_id }}</td>
+                        <td>{{ test.test_date|date:"Y-m-d" }}</td>
+                        <td>{{ test.patientname }}</td>
+                        <td>{{ test.age }}</td>
+                        <td>{{ test.gender }}</td>
+                        <td>{{ test.mobile }}</td>
+                        <td>{{ test.email }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No tests found for this doctor.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Print Button -->
+        <div class="mt-4 text-center">
+            <button onclick="window.print()" class="btn btn-success">Print Report</button>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "pathoapp/base.html" %}
+    {% load static %}
+{% block content %}
+<div class="container" style = "margin-top:50px">
+<h2 class="text-center">About Us</h2>
+<br><br><br><br>
+
+<div class ="row">
+    <div class="col-sm-4 text-center">
+        <img src="{% static 'images/about.jpg' %}" alt="Team Member" width="300" height="200">
+
+    </div>
+    <div class="col-sm-8 font-weight-bold mt-5">
+        Hello Friends...<br>
+        We are a team of passionate individuals who are dedicated to creating a better world through our work. We
+        believe in the power of technology and its ability to transform lives. Our mission is to provide innovative
+        solutions that make a real difference in people's lives.
+        </div>
+
+    </div>
+</div>
+</div>    
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "pathoapp/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container" style="margin-top:20px">
+    <h2 class="text-center">Update Patient</h2>
+    <br>
+
+    <!-- Display Success Message if Update is Successful -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-3" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Patient ID Field (Read-only) -->
+        <label>Patient ID</label>
+        <input type="text" class="form-control" name="patientid" value="{{ patient.patientid }}" readonly>
+
+        <!-- Patient Name Field -->
+        <label>Patient Name</label>
+        <input type="text" class="form-control" name="patientname" value="{{ patient.patientname }}" required>
+
+        <!-- Recommended Date Field -->
+        <label>Recommended Date</label>
+        <input type="date" class="form-control" name="recondate" value="{{ patient.recondate|date:'Y-m-d' }}" required>
+
+        <!-- Age Field -->
+        <label>Age</label>
+        <input type="number" class="form-control" name="age" value="{{ patient.age }}" required>
+
+        <!-- Gender Radio Buttons -->
+        <label>Gender</label>
+        <div>
+            <input type="radio" name="gender" value="Male" {% if patient.gender == "Male" %}checked{% endif %}> Male
+            <input type="radio" name="gender" value="Female" {% if patient.gender == "Female" %}checked{% endif %}> Female
+            <input type="radio" name="gender" value="Other" {% if patient.gender == "Other" %}checked{% endif %}> Other
+        </div>
+        <br>
+
+        <!-- Mobile Field -->
+        <label>Mobile</label>
+        <input type="text" class="form-control" name="mobile" value="{{ patient.mobile }}" required>
+
+        <!-- Email Field -->
+        <label>Email</label>
+        <input type="email" class="form-control" name="email" value="{{ patient.email }}" required>
+
+        <!-- Address Field -->
+        <label>Address</label>
+        <textarea name="address" class="form-control" rows="3" required>{{ patient.address }}</textarea>
+
+        <!-- Referred By Doctor Dropdown -->
+        <label for="refbydoctor" class="mt-3">Referred By Doctor</label>
+        <select name="refbydoctor" class="form-control" required>
+            <option value="" disabled>Select Doctor</option>
+            {% for doctor in doctors %}
+                <option value="{{ doctor.doctorname }}" {% if patient.refbydoctor and patient.refbydoctor.doctorname == doctor.doctorname %}selected{% endif %}>
+                    {{ doctor.doctorname }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br>
+        <!-- Submit Button -->
+        <input type="submit" name="updatepatient_submit" value="Update" class="form-control btn btn-primary">
+    </form>
+</div>
+{% endblock %}

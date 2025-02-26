@@ -1,0 +1,25 @@
+{% extends 'pathoapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid home-container">
+    <div class="row home-row">
+        <!-- Image Section -->
+        <div class="col-md-6 home-image-col">
+            <img src="{% static 'images/background.webp' %}" alt="Pathology Image" class="img-fluid">
+        </div>
+
+        <!-- Text Section -->
+        <div class="col-md-6 home-text-col">
+            <h2 class="display-4 mb-4">Welcome to the Pathology Management System</h2>
+            <p class="lead">
+                Streamline your pathology lab operations with our comprehensive management system. 
+                Manage patients, tests, and reports efficiently and securely.
+            </p>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

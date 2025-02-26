@@ -1,0 +1,106 @@
+{% extends "pathoapp/base.html" %}
+{% load form_extras %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Update Microalbumin Test - ID: {{ test_id }}</h2>
+
+    <!-- Start of Patient Information Card -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="card-title">Patient Information</h4>
+        </div>
+        <div class="card-body">
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="id_patient_name">Patient Name:</label>
+                    <input type="text" id="id_patient_name" value="{{ patient_data.patientname }}" class="form-control" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="id_patient_age">Patient Age:</label>
+                    <input type="text" id="id_patient_age" value="{{ patient_data.age }}" class="form-control" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="id_patient_gender">Patient Gender:</label>
+                    <input type="text" id="id_patient_gender" value="{{ patient_data.gender }}" class="form-control" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="id_patient_mobile">Patient Mobile:</label>
+                    <input type="text" id="id_patient_mobile" value="{{ patient_data.mobile }}" class="form-control" disabled>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="id_patient_email">Patient Email:</label>
+                    <input type="text" id="id_patient_email" value="{{ patient_data.email }}" class="form-control" disabled>
+                </div>
+            </div>
+
+            <!-- New Fields for Referring Doctor and Doctor Email -->
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="id_refbydoctor">Referred by Doctor:</label>
+                    <input type="text" id="id_refbydoctor" name="refbydoctor" value="{{ patient_data.refbydoctor }}" class="form-control" disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="id_doctor_email">Doctor Email:</label>
+                    <input type="email" id="id_doctor_email" name="doctor_email" value="{{ patient_data.doctor_email }}" class="form-control" disabled>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Patient Information Card -->
+
+    <!-- Haematology Test Update Form -->
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>There were errors with your submission:</strong>
+                <ul>
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <li>{{ field.label }}: {{ field.errors|striptags }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                {{ form.patient_id.label_tag }}: {{ form.patient_id }}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.test_date.label_tag }}: {{ form.test_date|add_class:"form-control" }}
+            </div>
+        </div>
+
+        <!-- Other fields from form -->
+        <div class="form-row">
+            {% for field in form %}
+                {% if field.name not in 'patient_id test_date' %}
+                    <div class="col-md-4 mb-3">
+                        {{ field.label_tag }}: {{ field|add_class:"form-control" }}
+                        {% if field.errors %}
+                            <div class="text-danger">{{ field.errors|striptags }}</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Form Submission Buttons -->
+        <div class="form-row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-success">Update</button>
+                <a href="{% url 'viewmicroalbumin' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

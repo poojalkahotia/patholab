@@ -1,0 +1,460 @@
+.nav-link{
+    color: white !important;
+}
+
+.nav-link:hover{
+    color: yellow !important;
+    background-color: rgb(226, 155, 14);
+    border-radius: 10px;
+}
+
+.navbar-brand{
+    color: yellow !important;
+    font-weight: bold;
+
+}
+.mydivstyle:hover{
+    box-shadow: 0 0 20px 0 rgba(0,0,0,0.3);
+    transform: translateY(-20px);
+}
+
+.rounded{
+    border-top: 8px solid lightblue;
+    border-radius: 5px;
+}
+
+.custom-divider {
+    border-color: #333; /* Dark grey */
+    border-width: 1px; /* Increase thickness */
+}
+
+/* Ensure the row and container have no gaps */
+/* Ensure the container takes full viewport height */
+.home-container {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+.home-row {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+.home-image-col {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.home-image-col img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.home-text-col {
+    padding: 3rem;
+    height: 100vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: #f8f9fa;
+}
+
+/* signup page */
+/* Signup Page Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(158, 196, 234);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px; /* Add some padding to the body to prevent overflow */
+}
+
+.signup-container {
+    background: #fff;
+    padding: 1.5rem; /* Reduce padding to make the container smaller */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 20px; /* Add margin to ensure it doesn't touch the edges */
+}
+
+.signup-container h2 {
+    text-align: center;
+    margin-bottom: 1rem; /* Reduce margin */
+    color: #343a40;
+    font-weight: 600;
+}
+
+.signup-container .form-control {
+    border-radius: 5px;
+    padding: 8px; /* Reduce padding */
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+    margin-bottom: 1rem; /* Reduce margin */
+}
+
+.signup-container .form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
+
+.signup-container .btn-primary {
+    width: 100%;
+    padding: 8px; /* Reduce padding */
+    border-radius: 5px;
+    background-color: #007bff;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.signup-container .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.signup-container .form-group {
+    margin-bottom: 1rem; /* Reduce margin */
+}
+
+.signup-container .form-group label {
+    font-weight: 500;
+    color: #555;
+}
+
+.signup-container .login-link {
+    text-align: center;
+    margin-top: 1rem; /* Reduce margin */
+}
+
+.signup-container .login-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.signup-container .login-link a:hover {
+    text-decoration: underline;
+}
+
+.signup-container .alert {
+    border-radius: 5px;
+    margin-bottom: 1rem; /* Reduce margin */
+}
+
+.signup-container .logo {
+    text-align: center;
+    margin-bottom: 1rem; /* Reduce margin */
+}
+
+.signup-container .logo img {
+    width: 100px; /* Reduce logo size */
+    height: 100px; /* Reduce logo size */
+    border-radius: 50%;
+}
+
+/* Custom style for buttons row */
+.button-row {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-top: 1rem; /* Reduce margin */
+}
+
+.button-row .btn {
+    flex: 1; /* Equal width for all buttons */
+    padding: 8px; /* Reduce padding */
+}
+/* loginpage */  
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color:rgb(158, 196, 234);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #343a40;
+    font-weight: 600;
+}
+
+.login-container .form-control {
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.login-container .form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
+
+.login-container .btn-primary {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #007bff;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.login-container .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.login-container .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.login-container .form-group label {
+    font-weight: 500;
+    color: #555;
+}
+
+.login-container .forgot-password {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-container .forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.login-container .forgot-password a:hover {
+    text-decoration: underline;
+}
+
+.login-container .alert {
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+}
+
+.login-container .logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.login-container .logo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+/* Custom style for buttons row */
+.button-row {
+    display: flex;
+    gap: 10px; /* Space between buttons */
+    margin-top: 1rem;
+}
+
+.button-row .btn {
+    flex: 1; /* Equal width for all buttons */
+}
+
+
+
+/* changepassword */  
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color:rgb(158, 196, 234);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.change-password-container {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.change-password-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #343a40;
+    font-weight: 600;
+}
+
+.change-password-container .form-control {
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.change-password-container .form-control:focus {
+    border-color: #007bff;
+    box-shadow: none;
+}
+
+.change-password-container .btn-primary {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #007bff;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.change-password-container .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.change-password-container .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.change-password-container .form-group label {
+    font-weight: 500;
+    color: #555;
+}
+
+.change-password-container .alert {
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+}
+
+.change-password-container .logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.change-password-container .logo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+/* base.html mein navbar ka css*/  
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0; /* Remove default body margin */
+}
+
+/* Navbar Styles */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #343a40; /* Dark background for navbar */
+    padding: 0.5rem 1rem; /* Adjust padding */
+    width: 100%; /* Ensure navbar spans full width */
+    margin: 0; /* Remove default margin */
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: #fff !important; /* White text for brand */
+}
+
+.navbar-brand img {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.nav-item {
+    margin: 0 10px;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+    color: rgba(255, 255, 255, 0.75) !important; /* Light grey text for links */
+}
+
+.nav-link:hover {
+    color: #007bff !important; /* Blue text on hover */
+}
+
+.dropdown-menu {
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+.dropdown-item {
+    font-weight: 400;
+    transition: background-color 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: #343a40; /* Dark background for footer */
+    color: #fff;
+    margin-top: auto;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensure footer spans full width */
+    padding: 1rem 0; /* Add padding */
+    text-align: center; /* Center-align text */
+}
+
+.footer span {
+    font-size: 0.9rem;
+}
+
+/* Container Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto; /* Center the container */
+    padding: 0 15px; /* Add padding */
+}
+
+/* Alert Styles */
+.alert {
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

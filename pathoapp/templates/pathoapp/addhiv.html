@@ -1,0 +1,197 @@
+{% extends "pathoapp/base.html" %}
+{% load form_extras %}
+{% block content %}
+
+<div class="container mt-3">
+    <h2 class="mb-4">Add Hiv Test</h2>
+    <form method="post" class="needs-validation" novalidate id="hivForm">
+        {% csrf_token %}
+
+        <!-- Test ID Field -->
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="id_test_id">Test ID:</label>
+                <input type="text" name="test_id" id="test_id" value="{{ next_test_id }}" class="form-control">
+            </div>
+            <!-- Patient Dropdown -->
+            <div class="col-md-6 mb-3">
+                <label for="patient_dropdown">Select Patient:</label>
+                <div class="input-group">
+                    <select id="patient_dropdown" class="form-control" onchange="updatePatientId()">
+                        <option value="">Select a patient</option>
+                        {% for patient in patients %}
+                            <option value="{{ patient.patientid }}" data-doctor="{{ patient.refbydoctor.doctorname }}">
+                                {{ patient.patientname }} ({{ patient.patientid }})
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patient ID and Doctor Name -->
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="id_patient_id">Patient ID:</label>
+                <input type="text" name="patient_id" id="id_patient_id" class="form-control" >
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="id_doctor">Doctor Name:</label>
+                <input type="text" name="doctor" id="id_doctor" class="form-control" readonly>
+            </div>
+        </div>
+
+        <!-- Show Details Button -->
+        <div class="form-row">
+            <div class="col-md-12 mb-3 align-self-end">
+                <button type="button" class="btn btn-primary" onclick="fetchPatientDetails()">Show Details</button>
+            </div>
+        </div>
+
+        <!-- Patient Details Card -->
+        <div class="card patient-details-card mb-4" id="patient_details">
+            <div class="card-header">Patient Details</div>
+            <div class="card-body">
+                <p class="text-muted">Select a patient and click "Show Details" to see the information.</p>
+            </div>
+        </div>
+
+        <!-- Hiv Test Fields -->
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="id_test_date">Test Date:</label>
+                <input type="date" name="test_date" id="id_test_date" class="form-control">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="id_hiv">HIV:</label>
+                <input type="number" name="hiv" id="id_hiv" class="form-control" step="0.01">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="id_other_test">Other Test:</label>
+                <input type="text" name="other_test" id="id_other_test" class="form-control">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="id_result">Result:</label>
+                <input type="text" name="result" id="id_result" class="form-control">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="id_normal_value">Normal Value:</label>
+                <input type="text" name="normal_value" id="id_normal_value" class="form-control">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="id_remarks">Remarks:</label>
+                <textarea name="remarks" id="id_remarks" class="form-control" rows="1"></textarea>
+            </div>
+        </div>
+
+        <!-- Email Options -->
+        <div class="form-row">
+            <div class="col-md-12 mb-3">
+                <input type="checkbox" id="send_patient_email" name="send_patient_email">
+                <label for="send_patient_email">Send Email to Patient</label>
+            </div>
+            <div class="col-md-12 mb-3">
+                <input type="checkbox" id="send_doctor_email" name="send_doctor_email">
+                <label for="send_doctor_email">Send Email to Doctor</label>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-row">
+            <div class="col-md-12 mb-3 text-right">
+                <button type="submit" class="btn btn-success btn-lg">Save</button>
+                <a href="{% url 'viewhiv' %}" class="btn btn-secondary btn-lg">Cancel</a>
+                <button type="button" class="btn btn-primary btn-lg" onclick="downloadPDF()">PDF</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="generateReport()">Report</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    // Function to update patient ID and doctor name when a patient is selected
+    function updatePatientId() {
+        const dropdown = document.getElementById('patient_dropdown');
+        const selectedPatientId = dropdown.value; // Get the selected patient ID
+        const selectedOption = dropdown.options[dropdown.selectedIndex];
+        const doctorName = selectedOption.getAttribute('data-doctor'); // Get the doctor's name
+
+        const patientIdInput = document.getElementById('id_patient_id'); // Patient ID input field
+        const doctorInput = document.getElementById('id_doctor'); // Doctor input field
+
+        // Update the patient ID and doctor name fields
+        if (selectedPatientId) {
+            patientIdInput.value = selectedPatientId;
+            doctorInput.value = doctorName || 'N/A'; // Set doctor name or 'N/A' if not available
+        } else {
+            patientIdInput.value = ''; // Clear the field if no patient is selected
+            doctorInput.value = ''; // Clear the doctor field
+        }
+    }
+
+    // Function to fetch and display patient details
+    function fetchPatientDetails() {
+        const patientId = document.getElementById('id_patient_id').value;
+        if (patientId) {
+            fetch(`/get_patient_data?patient_id=${patientId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        document.getElementById('patient_details').innerHTML = `
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="col-md-4 mb-3">
+                                        <p><strong>Name:</strong> ${data.patientname}</p>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <p><strong>Age:</strong> ${data.age}</p>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <p><strong>Gender:</strong> ${data.gender}</p>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                        <p><strong>Mobile:</strong> ${data.mobile}</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <p><strong>Email:</strong> ${data.email}</p>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6 mb-3">
+                                        <p><strong>Referred By Doctor:</strong> ${data.refbydoctor ? data.refbydoctor.doctorname : 'N/A'}</p>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <p><strong>Doctor Email:</strong> ${data.refbydoctor ? data.refbydoctor.email : 'N/A'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => alert('An error occurred: ' + error));
+        } else {
+            alert('Please select a patient first.');
+        }
+    }
+
+    function generateReport() {
+        // Get the test_id value from the form
+        var testId = document.getElementById('test_id').value;
+
+        // Check if test_id is not empty
+        if (testId) {
+            // Redirect to the report URL with the test_id
+            window.location.href = "{% url 'haematology_report' 0 %}".replace("0", testId);
+        } else {
+            alert("Please enter a valid Test ID.");
+        }
+    }
+</script>
+
+{% endblock content %}

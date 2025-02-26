@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Pathology Management System{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mystyle.css' %}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/logo.jpeg' %}" alt="Pathology Logo" width="50" height="50">
+                <span>Pathology Management System</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fas fa-user"></i> Welcome, {{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Master</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'addpathoinfo' %}">Add Pathoinfo</a>
+                                <a class="dropdown-item" href="{% url 'addpatient' %}">Add Patient</a>
+                                <a class="dropdown-item" href="{% url 'viewpatient' %}">View Patient</a>
+                                <a class="dropdown-item" href="{% url 'adddoctor' %}">Add Doctor</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Test</a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'addhaematology' %}">Add Haematology</a>
+                                <a class="dropdown-item" href="{% url 'viewhaematology' %}">View Haematology</a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="{% url 'addbloodsugar' %}">Add Blood Sugar</a>
+                                <a class="dropdown-item" href="{% url 'viewbloodsugar' %}">View Blood Sugar</a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="{% url 'addkidney' %}">Add Kidney</a>
+                                <a class="dropdown-item" href="{% url 'viewkidney' %}">View Kidney</a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="{% url 'addurine' %}">Add Urine</a>
+                                <a class="dropdown-item" href="{% url 'viewurine' %}">View Urine</a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="{% url 'addhiv' %}">Add HIV</a>
+                                <a class="dropdown-item" href="{% url 'viewhiv' %}">View HIV</a>
+                                <hr class="dropdown-divider">
+                                <a class="dropdown-item" href="{% url 'addmicroalbumin' %}">Add Microalbumin</a>
+                                <a class="dropdown-item" href="{% url 'viewmicroalbumin' %}">View Microalbumin</a>
+                                <a class="dropdown-item" href="{% url 'doctor_st' %}">Doctor Statement</a>
+                                <a class="dropdown-item" href="{% url 'daily_report' %}">Daily Report</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
+                            <div class="dropdown-menu">
+                                {% for test in haematology_tests %}
+                                    <a class="dropdown-item" href="{% url 'haematology_report' test.test_id %}">Haematology Report - {{ test.test_id }}</a>
+                                {% endfor %}
+                                {% for test in bloodsugar_tests %}
+                                    <a class="dropdown-item" href="{% url 'bloodsugar_report' test.test_id %}">Blood Sugar Report - {{ test.test_id }}</a>
+                                {% endfor %}
+                                {% for test in kidney_tests %}
+                                    <a class="dropdown-item" href="{% url 'kidney_report' test.test_id %}">Kidney Report - {{ test.test_id }}</a>
+                                {% endfor %}
+                                {% for test in urine_tests %}
+                                    <a class="dropdown-item" href="{% url 'urine_report' test.test_id %}">Urine Report - {{ test.test_id }}</a>
+                                {% endfor %}
+                                {% for test in hiv_tests %}
+                                    <a class="dropdown-item" href="{% url 'hiv_report' test.test_id %}">HIV Report - {{ test.test_id }}</a>
+                                {% endfor %}
+                                {% for test in microalbumin_tests %}
+                                    <a class="dropdown-item" href="{% url 'microalbumin_report' test.test_id %}">Microalbumin Report - {{ test.test_id }}</a>
+                                {% endfor %}
+                            </div>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'about' %}"><i class="far fa-address-card"></i> About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'contact' %}"><i class="fa fa-phone"></i> Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </li>
+                        <form id="logout-form" method="post" action="{% url 'logout' %}" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Image Section -->
+    <div class="hero-image">
+        <div class="hero-text">
+           <!--  <img src="{% static 'images/background.jpeg' %}">-->
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer class="footer mt-auto py-2 bg-dark">
+        <div class="container text-center">
+            <span class="text-light">&copy; 2025 Pathology Management System. All rights reserved.</span>
+        </div>
+    </footer>
+</body>
+</html>

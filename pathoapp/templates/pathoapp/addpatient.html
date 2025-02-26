@@ -1,0 +1,97 @@
+{% extends "pathoapp/base.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Add Patient</h2>
+
+    <!-- Display success or error messages -->
+    {% if messages %}
+    <div class="alert alert-success" role="alert">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="patientid">Patient ID</label>
+                        <input type="number" class="form-control" name="patientid" required>
+
+                        <label for="patientname" class="mt-3">Patient Name</label>
+                        <input type="text" class="form-control" name="patientname" required>
+
+                        <label for="recondate" class="mt-3">Recommended Date</label>
+                        <input type="date" class="form-control" name="recondate" required>
+
+                        <label for="age" class="mt-3">Age</label>
+                        <input type="number" class="form-control" name="age" required>
+
+                        <label class="mt-3">Gender</label>
+                        <div>
+                            <input type="radio" name="gender" value="Male" required> Male 
+                            <input type="radio" name="gender" value="Female" required> Female
+                            <input type="radio" name="gender" value="Other" required> Other 
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="mobile" class="mt-3">Contact</label>
+                        <input type="text" class="form-control" name="mobile" required>
+
+                        <label for="email" class="mt-3">Email</label>
+                        <input type="email" class="form-control" name="email" required>
+
+                        <label for="address" class="mt-3">Address</label>
+                        <textarea name="address" class="form-control" id="address" rows="3"></textarea>
+
+                        <!-- Referred By Doctor Dropdown -->
+                        <label for="refbydoctor" class="mt-3">Referred By Doctor</label>
+                        <select name="refbydoctor" class="form-control" id="refbydoctor" required>
+                            <option value="" disabled selected>Select Doctor</option>
+                            {% for doctor in doctors %}
+                                <option value="{{ doctor.doctorname }}">{{ doctor.doctorname }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <!-- Doctor Email Display -->
+                        <label for="doctoremail" class="mt-3">Doctor's Email</label>
+                        <input type="email" class="form-control" id="doctoremail" readonly>  <!-- Read-only field for doctor's email -->
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <input type="submit" name="addpatient_submit" value="Submit" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- AJAX Script to fetch doctor's email -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#refbydoctor').change(function(){
+            var doctorName = $(this).val();  // Get selected doctor's name
+            
+            if (doctorName) {
+                $.ajax({
+                    url: '{% url "get_doctor_email" %}',  // URL of the view to get doctor's email
+                    data: {
+                        'doctorname': doctorName  // Send selected doctor name
+                    },
+                    success: function(response) {
+                        $('#doctoremail').val(response.email);  // Set email field with the response
+                    }
+                });
+            } else {
+                $('#doctoremail').val('');  // Clear email field if no doctor is selected
+            }
+        });
+    });
+</script>
+{% endblock %}
